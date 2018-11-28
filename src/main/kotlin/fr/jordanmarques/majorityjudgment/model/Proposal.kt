@@ -8,6 +8,6 @@ data class Proposal(
         var creator: String = "",
         var choices: List<Choice> = mutableListOf(),
         var isClosed: Boolean = false,
-        var participants: List<Participant> = mutableListOf(),
+        var participants: MutableList<Participant> = mutableListOf(),
         var votes: MutableList<Vote> = mutableListOf()
 )
