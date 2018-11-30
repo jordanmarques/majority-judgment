@@ -4,6 +4,7 @@ import java.util.*
 
 data class Proposal(
         var id: String = UUID.randomUUID().toString(),
+        var adminToken: String = UUID.randomUUID().toString(),
         var label: String = "",
         var creator: String = "",
         var choices: List<Choice> = mutableListOf(),

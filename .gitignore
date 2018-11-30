@@ -57,4 +57,4 @@ Temporary Items
 /src/main/front/build/
 /src/main/resources/static/*
 
-/src/main/resources/majority-judgment-824b765d3717.json
+/src/main/resources/firestore_access.json

@@ -13,8 +13,11 @@ class ProposalController(
 ) {
 
     @RequestMapping(value= ["/proposal"], method = [POST])
-    fun new(@RequestBody proposal: Proposal) {
-        proposalService.save(proposal)
+    fun new(@RequestBody proposal: Proposal): HashMap<String, String> {
+        val id = proposalService.save(proposal)
+        val map = HashMap<String, String>()
+        map["id"] = id
+        return map
     }
 
     @RequestMapping(value= ["/proposal/{proposalId}/vote"], method = [POST])
