@@ -6,7 +6,33 @@ body{
   font-family: sans-serif;
   text-align: center;
   background: #7F7FD5;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #91EAE4, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(to bottom, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   height: calc(100vh);
+}
+
+.jumbotron {
+  padding-top: 20px!important;
+  background-color: #f8f9fa!important;
+}
+
+.spaced{
+  margin: 40px 0!important;
+}
+
+.navbar {
+  margin-bottom: 10px;
+}
+
+.appIcon{
+  margin-right: 10px;
+}
+
+.newVoteForm {
+  text-align: left;
+}
+
+.tag{
+  margin: 0 2px;
+  background-color: #7f7fd5;
 }
