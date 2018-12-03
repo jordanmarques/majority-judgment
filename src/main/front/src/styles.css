@@ -36,3 +36,36 @@ body{
   margin: 0 2px;
   background-color: #7f7fd5;
 }
+
+.noDecoration, .noDecoration:hover {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+.appreciation-color-6 {
+  background-color: red;
+}
+
+.appreciation-color-5 {
+  background-color: #fc8800;
+}
+
+.appreciation-color-4 {
+  background-color: #f6b500;
+}
+
+.appreciation-color-3 {
+  background-color: #cbe147;
+}
+
+.appreciation-color-2 {
+  background-color: #b6e963;
+}
+
+.appreciation-color-1 {
+  background-color: #8ef699;
+}
