@@ -7,7 +7,7 @@ class IndexPage extends Component {
         return (
             <div className="col col-md-8 offset-md-2">
                 <div className="jumbotron">
-                    <h1 className="display-4">Welcome on Majority Judgement !</h1>
+                    <h1 className="display-4">Welcome to Majority Judgement !</h1>
                     <p>To learn more about majority judgment visit: <a href={"https://en.wikipedia.org/wiki/Majority_judgment"} target={"blank"}>
                         Wikipedia</a>
                     </p>

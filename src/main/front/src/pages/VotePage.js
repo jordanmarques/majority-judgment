@@ -46,17 +46,42 @@ class VotePage extends Component {
                     }
                     <input type="email"
                            className="form-control"
-                           placeholder="Mail"/>
+                           placeholder="Mail"
+                           onChange={e => this.setState({mail: e.target.value})}/>
+
                     <div className="spaced">
-                        <button className="btn btn-primary">Vote !</button>
+                        <button className="btn btn-primary" onClick={() => this.submitVote()}>Vote !</button>
                     </div>
                 </div>
             </div>
         );
     }
 
-    setAppreciationToChoice = (choice, appreciation) =>  {
+    setAppreciationToChoice = (choice, appreciation) => {
+        this.setState(prevState => {
+            const votes = Object.assign({}, prevState.votes);
+            votes[choice] = appreciation;
+            return {votes: votes}
+        });
         console.log(choice, appreciation)
+    };
+
+    submitVote = () => {
+        var votesCall = {};
+        const formatedVotes = Object.keys(this.state.votes).map(choice => {
+            const formatedChoice = {"label": choice.replace(" ","_")};
+            return {choice: formatedChoice, appreciation: this.state.votes[choice]};
+        });
+
+        votesCall.votes = formatedVotes;
+        votesCall.mail = this.state.mail;
+
+        console.log(votesCall)
+
+        axios.post("/api/proposal/" + this.state.voteId + "/vote", votesCall)
+            .then(response => this.props.history.push("/confirmation/vote/"))
+            .catch(error => alert(error.response.data.message))
+
     }
 }
 

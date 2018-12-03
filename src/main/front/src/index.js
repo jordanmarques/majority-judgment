@@ -10,6 +10,7 @@ import NavBar from "./components/NavBar";
 import NewVotePage from "./pages/NewVotePage";
 import IndexPage from "./pages/IndexPage";
 import VoteCreatedPage from "./pages/VoteCreatedPage";
+import VoteSubmitedPage from "./pages/VoteSubmitedPage";
 import VotePage from "./pages/VotePage";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/" exact component={IndexPage}/>
                 <Route path="/new/" component={NewVotePage}/>
                 <Route path="/confirmation/creation/:name" component={VoteCreatedPage}/>
+                <Route path="/confirmation/vote/" component={VoteSubmitedPage}/>
                 <Route path="/vote/:id" component={VotePage}/>
             </div>
         </Router>

@@ -2,6 +2,7 @@ package fr.jordanmarques.majorityjudgment.service
 
 import fr.jordanmarques.majorityjudgment.dao.ProposalDao
 import fr.jordanmarques.majorityjudgment.dto.UserVoteDto
+import fr.jordanmarques.majorityjudgment.model.Choice
 import fr.jordanmarques.majorityjudgment.model.Participant
 import fr.jordanmarques.majorityjudgment.model.Proposal
 import org.springframework.stereotype.Service
@@ -17,6 +18,18 @@ class ProposalService(
         proposalDao.upsert(proposal)
 
         return proposal.id
+    }
+
+    fun choices(proposalId: String): List<Choice> {
+        proposalDao.byId(proposalId)
+                ?.let { proposal -> return proposal.choices }
+                ?:run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
+    }
+
+    fun name(proposalId: String): String {
+        proposalDao.byId(proposalId)
+                ?.let { proposal -> return proposal.label }
+                ?:run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
     }
 
     fun vote(proposalId: String, userVoteDto: UserVoteDto) {
