@@ -7,11 +7,12 @@ import "./styles.css";
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import NavBar from "./components/NavBar";
-import NewVotePage from "./pages/NewVotePage";
+import NewProposalPage from "./pages/proposal/new/NewProposalPage";
 import IndexPage from "./pages/IndexPage";
-import VoteCreatedPage from "./pages/VoteCreatedPage";
-import VoteSubmitedPage from "./pages/VoteSubmitedPage";
-import VotePage from "./pages/VotePage";
+import VoteCreatedConfirmationPage from "./pages/confirmation/VoteCreatedPage";
+import VoteSubmitedConfirmationPage from "./pages/confirmation/VoteSubmitedPage";
+import VotePage from "./pages/proposal/vote/ProposalVotePage";
+import ProposalResultPage from "./pages/proposal/result/ProposalResultPage";
 
 function App() {
     return (
@@ -20,10 +21,11 @@ function App() {
             <div className="App">
                 <NavBar/>
                 <Route path="/" exact component={IndexPage}/>
-                <Route path="/new/" component={NewVotePage}/>
-                <Route path="/confirmation/creation/:name" component={VoteCreatedPage}/>
-                <Route path="/confirmation/vote/" component={VoteSubmitedPage}/>
-                <Route path="/vote/:id" component={VotePage}/>
+                <Route path="/new/" component={NewProposalPage}/>
+                <Route path="/proposal/vote/:id" component={VotePage}/>
+                <Route path="/proposal/result/:id/:token" component={ProposalResultPage}/>
+                <Route path="/confirmation/creation/:name" component={VoteCreatedConfirmationPage}/>
+                <Route path="/confirmation/vote/" component={VoteSubmitedConfirmationPage}/>
             </div>
         </Router>
     );

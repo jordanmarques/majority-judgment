@@ -3,8 +3,6 @@ import React from 'react';
 const NewProposalForm = props => {
 
     return (
-
-
         <div className="newVoteForm">
             <div className="form-group spaced">
                 <label htmlFor="voteName">

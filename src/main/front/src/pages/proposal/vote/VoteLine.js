@@ -55,7 +55,9 @@ class VoteLine extends Component {
             case "BAD":
                 return "appreciation-color-5";
             case "REJECT":
-                return "appreciation-color-6"
+                return "appreciation-color-6";
+            default:
+                return "";
 
         }
     }

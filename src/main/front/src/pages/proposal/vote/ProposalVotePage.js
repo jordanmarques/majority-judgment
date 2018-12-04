@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import axios from 'axios'
-import VoteLine from "../components/VoteLine";
+import VoteLine from "./VoteLine";
+import CenteredPage from "../../../components/CenteredPage";
+import PageDefaultBody from "../../../components/PageDefaultBody";
 
-class VotePage extends Component {
+class ProposalVotePage extends Component {
 
     constructor(props) {
         super(props);
@@ -21,21 +23,21 @@ class VotePage extends Component {
     componentDidMount() {
         axios.get(`/api/proposal/${this.state.voteId}/name`)
             .then(response => this.setState({"voteName": response.data}))
-            .catch(error => console.error(error));
+            .catch(error => alert(error));
 
         axios.get("/api/appreciations")
             .then(response => this.setState({"appreciations": response.data}))
-            .catch(error => console.error(error));
+            .catch(error => alert(error));
 
         axios.get(`/api/proposal/${this.state.voteId}/choices`)
             .then(response => this.setState({"choices": response.data.map(choice => choice.label)}))
-            .catch(error => console.error(error));
+            .catch(error => alert(error));
     }
 
     render() {
         return (
-            <div className="col col-md-8 offset-md-2">
-                <div className="jumbotron">
+            <CenteredPage>
+                <PageDefaultBody>
                     <h1>{this.state.voteName}</h1>
                     {
                         this.state.choices.map((choice, i) => <VoteLine
@@ -52,8 +54,8 @@ class VotePage extends Component {
                     <div className="spaced">
                         <button className="btn btn-primary" onClick={() => this.submitVote()}>Vote !</button>
                     </div>
-                </div>
-            </div>
+                </PageDefaultBody>
+            </CenteredPage>
         );
     }
 
@@ -85,4 +87,4 @@ class VotePage extends Component {
     }
 }
 
-export default VotePage;
+export default ProposalVotePage;
