@@ -6,6 +6,7 @@ import fr.jordanmarques.majorityjudgment.service.CountingService
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@RequestMapping("/api")
 class CountingController(
         private val countingManager: CountingManager
 ) {

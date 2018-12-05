@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@RequestMapping("/api")
 class AppreciationController {
     @RequestMapping(value = ["/appreciations"], method = [RequestMethod.GET])
     fun counting(): Array<Appreciation> {

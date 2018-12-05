@@ -58,3 +58,4 @@ Temporary Items
 /src/main/resources/static/*
 
 /src/main/resources/firestore_access.json
+/config/

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod.POST
 
 
 @RestController
+@RequestMapping("/api")
 class ProposalController(
         private val proposalService: ProposalService
 ) {
