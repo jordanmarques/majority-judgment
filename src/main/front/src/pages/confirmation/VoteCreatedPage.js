@@ -8,7 +8,7 @@ class VoteCreatedPage extends Component {
         return (
             <CenteredPage>
                 <PageDefaultBody>
-                    <h1>Vote {this.props.match.params.name} created !</h1>
+                    <h1 className="display-4">Vote {this.props.match.params.name} created !</h1>
                 </PageDefaultBody>
             </CenteredPage>
         );

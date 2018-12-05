@@ -48,7 +48,7 @@ class ProposalVotePage extends Component {
                     }
                     <input type="email"
                            className="form-control"
-                           placeholder="Mail"
+                           placeholder="Enter your email (the one on which you received this link)"
                            onChange={e => this.setState({mail: e.target.value})}/>
 
                     <div className="spaced">

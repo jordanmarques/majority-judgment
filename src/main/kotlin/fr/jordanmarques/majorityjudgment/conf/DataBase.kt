@@ -16,7 +16,11 @@ class DataBase {
 
     @Bean
     fun getFirestoreClient(): Firestore{
-        val serviceAccount = FileInputStream(javaClass.classLoader.getResource("firestore_access.json").file)
+
+        val file = javaClass.classLoader.getResource("dev_firestore_access.json").file
+                ?: javaClass.classLoader.getResource("firestore_access.json").file
+
+        val serviceAccount = FileInputStream(file)
         val credentials = GoogleCredentials.fromStream(serviceAccount)
         val options = FirebaseOptions.Builder()
                 .setCredentials(credentials)

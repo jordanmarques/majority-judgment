@@ -1,0 +1,16 @@
+language: java
+jdk:
+  - oraclejdk8
+
+branches:
+  only:
+    - master
+
+deploy:
+  skip_cleanup: true
+  provider: heroku
+  api_key:
+    secure: $HEROKU_API_KEY
+
+notifications:
+  email: false

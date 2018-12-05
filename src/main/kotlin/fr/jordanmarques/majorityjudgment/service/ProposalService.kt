@@ -9,11 +9,15 @@ import org.springframework.stereotype.Service
 
 @Service
 class ProposalService(
-        private val proposalDao: ProposalDao
+        private val proposalDao: ProposalDao,
+        private val emailService: EmailService
 ) {
     fun save(proposal: Proposal): String {
 
         proposal.participants.add(Participant(proposal.creator))
+
+        emailService.sendVoteInvitations(proposal.participants.map { it.mail }, proposal.label, proposal.id)
+        emailService.sendVoteResultLink(proposal.creator, proposal.label, proposal.id, proposal.adminToken)
 
         proposalDao.upsert(proposal)
 
@@ -23,13 +27,13 @@ class ProposalService(
     fun choices(proposalId: String): List<Choice> {
         proposalDao.byId(proposalId)
                 ?.let { proposal -> return proposal.choices }
-                ?:run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
+                ?: run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
     }
 
     fun name(proposalId: String): String {
         proposalDao.byId(proposalId)
                 ?.let { proposal -> return proposal.label }
-                ?:run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
+                ?: run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
     }
 
     fun vote(proposalId: String, userVoteDto: UserVoteDto) {

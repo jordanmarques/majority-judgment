@@ -57,5 +57,5 @@ Temporary Items
 /src/main/front/build/
 /src/main/resources/static/*
 
-/src/main/resources/firestore_access.json
+/src/main/resources/dev_firestore_access.json
 /config/

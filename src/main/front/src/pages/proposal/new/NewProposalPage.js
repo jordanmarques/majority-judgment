@@ -38,18 +38,19 @@ class NewProposalPage extends Component {
         );
     }
 
-    splitAndClean(string) {
+    splitAndClean = (string) => {
         return string
             .split(",")
             .map(email => email.trim());
-    }
+    };
 
-    submitNewProposal() {
+    submitNewProposal = () => {
         if (!this.state.label || !this.state.creator || this.state.choices.length === 0 || this.state.participants.length === 0) {
             alert("One field is not filled")
         }
 
         const choicesForRESTCall = this.state.choices.map(choice => Object.assign({}, {"label": choice}));
+        console.log(choicesForRESTCall)
         const emailsForRESTCall = this.state.participants.map(choice => Object.assign({}, {"mail": choice}));
 
         axios.post("/api/proposal", Object.assign(this.state, {"choices": choicesForRESTCall}, {"participants": emailsForRESTCall}))

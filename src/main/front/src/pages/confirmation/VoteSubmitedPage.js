@@ -7,7 +7,7 @@ class VoteSubmitedPage extends Component {
         return (
             <CenteredPage>
                 <PageDefaultBody>
-                    <h1>Vote Submited, Thanks !</h1>
+                    <h1 className="display-4">Vote Submited, Thanks !</h1>
                 </PageDefaultBody>
             </CenteredPage>
         );
