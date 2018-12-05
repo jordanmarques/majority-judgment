@@ -56,7 +56,7 @@ Temporary Items
 /src/main/front/node_modules/
 /src/main/front/build/
 /src/main/resources/static/*
-!/src/main/resources/static/
+!/src/main/resources/static/.keep
 
 /src/main/resources/dev_firestore_access.json
 /config/
