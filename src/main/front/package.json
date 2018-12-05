@@ -19,6 +19,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "preinstall":"rm -rf ../resources/static && mkdir ../resources/static",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
