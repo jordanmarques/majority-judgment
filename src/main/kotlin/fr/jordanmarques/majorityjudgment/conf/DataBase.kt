@@ -7,6 +7,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.cloud.FirestoreClient
 import org.springframework.context.annotation.Bean
+import java.io.File
 import java.io.FileInputStream
 
 
@@ -17,10 +18,12 @@ class DataBase {
     @Bean
     fun getFirestoreClient(): Firestore{
 
-        val file = javaClass.classLoader.getResource("dev_firestore_access.json").file
-                ?: javaClass.classLoader.getResource("firestore_access.json").file
+        val devAccess = javaClass.classLoader.getResource("dev_firestore_access.json")
+        val prodAccess = javaClass.classLoader.getResource("firestore_access.json")
 
-        val serviceAccount = FileInputStream(file)
+        val access = devAccess ?: prodAccess
+
+        val serviceAccount = FileInputStream(access.file)
         val credentials = GoogleCredentials.fromStream(serviceAccount)
         val options = FirebaseOptions.Builder()
                 .setCredentials(credentials)
