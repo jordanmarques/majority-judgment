@@ -13,4 +13,4 @@ notifications:
   email: false
 before_install:
 - openssl aes-256-cbc -K $encrypted_f5bb11657cff_key -iv $encrypted_f5bb11657cff_iv
-  -in firestore_access.json.enc -out src/main/resources/firestore_access.json -d
+  -in src/main/resources/firestore_access.json.enc -out src/main/resources/firestore_access.json -d
