@@ -16,13 +16,14 @@ class VoteLine extends Component {
         return (
             <table className="table">
                 <tbody>
-                <tr>
-                    <th scope="row">{this.state.choice}</th>
+                <tr className="row">
+                    <th className="col col-3">{this.state.choice}</th>
                     {
                         this.state.appreciations.map((appreciation, i) =>
-                            <td key={i} className={"pointer " + (this.state.selected === i ? this.colorForAppreciation(appreciation) : "")}
+                            <td key={i}
+                                className={"pointer " + (this.state.selected === i ? this.colorForAppreciation(appreciation) : "")}
                                 onClick={() => this.onAppreciationClicked(this.state.choice, appreciation, i)}>
-                                {this.clean(appreciation)}
+                                <span>{this.clean(appreciation)}</span>
                             </td>)
                     }
                 </tr>

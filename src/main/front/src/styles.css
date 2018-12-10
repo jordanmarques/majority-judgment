@@ -54,27 +54,39 @@ body {
 }
 
 .appreciation-color-6 {
-    background-color: red;
+    background-color: #c862de;
+    border-radius: .3em;
+    color: white;
 }
 
 .appreciation-color-5 {
-    background-color: #fc8800;
+    background-color: #a462df;
+    border-radius: .3em;
+    color: white;
 }
 
 .appreciation-color-4 {
-    background-color: #f6b500;
+    background-color: #8062df;
+    border-radius: .3em;
+    color: white;
 }
 
 .appreciation-color-3 {
-    background-color: #cbe147;
+    background-color: #666ddf;
+    border-radius: .3em;
+    color: white;
 }
 
 .appreciation-color-2 {
-    background-color: #b6e963;
+    background-color: #6592de;
+    border-radius: .3em;
+    color: white;
 }
 
 .appreciation-color-1 {
-    background-color: #8ef699;
+    background-color: #64b5de;
+    border-radius: .3em;
+    color: white;
 }
 
 #myChart {
@@ -82,6 +94,9 @@ body {
     height: 500px;
 }
 
-#resultPage{
-
+.table {
+    border-radius: 5px;
+    width: 50%;
+    margin: 0 auto;
+    float: none;
 }

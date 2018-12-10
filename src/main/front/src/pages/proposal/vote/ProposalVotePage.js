@@ -3,6 +3,7 @@ import axios from 'axios'
 import VoteLine from "./VoteLine";
 import CenteredPage from "../../../components/CenteredPage";
 import PageDefaultBody from "../../../components/PageDefaultBody";
+import Ripple from "../../../images/Ripple";
 
 class ProposalVotePage extends Component {
 
@@ -16,6 +17,7 @@ class ProposalVotePage extends Component {
             appreciations: [],
             mail: "",
             votes: {},
+            isSendingVote: false
 
         }
     }
@@ -39,20 +41,30 @@ class ProposalVotePage extends Component {
             <CenteredPage>
                 <PageDefaultBody>
                     <h1>{this.state.voteName}</h1>
-                    {
-                        this.state.choices.map((choice, i) => <VoteLine
-                            key={i}
-                            appreciations={this.state.appreciations}
-                            choice={choice}
-                            onAppreciationClicked={(choice, appreciation) => this.setAppreciationToChoice(choice, appreciation)}/>)
-                    }
+                    <br/>
+                    <div className="col col-md-10 offset-md-1">
+                        {
+                            this.state.choices.map((choice, i) => <VoteLine
+                                key={i}
+                                appreciations={this.state.appreciations}
+                                choice={this.cleanTitle(choice)}
+                                onAppreciationClicked={(choice, appreciation) => this.setAppreciationToChoice(choice, appreciation)}/>)
+                        }
+                    </div>
+                    <br/>
                     <input type="email"
                            className="form-control"
                            placeholder="Enter your email (the one on which you received this link)"
                            onChange={e => this.setState({mail: e.target.value})}/>
 
-                    <div className="spaced">
-                        <button className="btn btn-primary" onClick={() => this.submitVote()}>Vote !</button>
+                    <div className="text-center">
+                        {
+                            this.state.isSendingVote
+                                ? <Ripple/>
+                                : <div className="spaced">
+                                    <button className="btn btn-primary" onClick={() => this.submitVote()}>Vote !</button>
+                                </div>
+                        }
                     </div>
                 </PageDefaultBody>
             </CenteredPage>
@@ -69,22 +81,48 @@ class ProposalVotePage extends Component {
     };
 
     submitVote = () => {
-        var votesCall = {};
-        const formatedVotes = Object.keys(this.state.votes).map(choice => {
-            const formatedChoice = {"label": choice.replace(" ","_")};
+
+        if (!this.state.mail) {
+            alert("You forgot the email !");
+            return;
+        }
+
+        if (!this.isEmailValid(this.state.mail)) {
+            alert("The email you entered is not correct");
+            return;
+        }
+
+        this.setState({isSendingVote: true});
+
+        const votesCall = {};
+        votesCall.votes = Object.keys(this.state.votes).map(choice => {
+            const formatedChoice = {"label": choice.replace(" ", "_")};
             return {choice: formatedChoice, appreciation: this.state.votes[choice]};
         });
 
-        votesCall.votes = formatedVotes;
         votesCall.mail = this.state.mail;
-
-        console.log(votesCall)
 
         axios.post("/api/proposal/" + this.state.voteId + "/vote", votesCall)
             .then(response => this.props.history.push("/confirmation/vote/"))
-            .catch(error => alert(error.response.data.message))
+            .catch(error => {
+                alert(error.response.data.message);
+                this.setState({isSendingVote: false});
+            })
 
+    };
+
+    isEmailValid = (email) => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
     }
+
+    cleanTitle = (title) => {
+        return this.capitalizeFirstLetter(title.replace("_", " "));
+    };
+
+    capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
 }
 
 export default ProposalVotePage;
