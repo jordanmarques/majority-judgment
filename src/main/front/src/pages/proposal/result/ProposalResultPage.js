@@ -4,6 +4,8 @@ import axios from 'axios'
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import PageDefaultBody from "../../../components/PageDefaultBody";
+import CenteredPageLarge from "../../../components/CenteredPageLarge";
 
 class ProposalResultPage extends Component {
 
@@ -52,7 +54,7 @@ class ProposalResultPage extends Component {
                 chart.data = result
                     .map(res => Object.assign(
                         {},
-                        {choice: res.label},
+                        {choice: this.cleanTitle(res.label)},
                         formatAppreciations(res.results))
                     );
 
@@ -100,9 +102,23 @@ class ProposalResultPage extends Component {
             .catch(error => alert(error.response.data.message));
     }
 
+    cleanTitle = (title) => {
+        return this.capitalizeFirstLetter(title.replace("_", " "));
+    };
+
+    capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
     render() {
         return (
-            <div id="myChart"/>
+            <CenteredPageLarge>
+                <PageDefaultBody>
+                    <h1 className="display-4">{this.state.voteName}</h1>
+                    <div id="myChart"/>
+                </PageDefaultBody>
+            </CenteredPageLarge>
+
         )
 
     }
