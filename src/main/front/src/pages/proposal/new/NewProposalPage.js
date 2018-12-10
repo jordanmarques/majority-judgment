@@ -3,6 +3,7 @@ import NewProposalForm from "./NewProposalForm";
 import axios from 'axios'
 import CenteredPage from "../../../components/CenteredPage";
 import PageDefaultBody from "../../../components/PageDefaultBody";
+import Ripple from "../../../images/Ripple";
 
 class NewProposalPage extends Component {
 
@@ -13,7 +14,8 @@ class NewProposalPage extends Component {
             label: "",
             creator: "",
             choices: [],
-            participants: []
+            participants: [],
+            isSubmitingProposal: false
         }
     }
 
@@ -31,7 +33,13 @@ class NewProposalPage extends Component {
                         onSubmit={this.submitNewProposal}
                     />
                     <div className="text-center">
-                        <button className="btn btn-primary" onClick={() => this.submitNewProposal()}>Submit</button>
+                        {this.state.isSubmitingProposal
+                            ? <Ripple/>
+                            : <button className="btn btn-primary" onClick={() => this.submitNewProposal()} disabled={this.state.isSubmitingProposal}>
+                                Submit
+                            </button>
+                        }
+
                     </div>
                 </PageDefaultBody>
             </CenteredPage>
@@ -45,17 +53,41 @@ class NewProposalPage extends Component {
     };
 
     submitNewProposal = () => {
+
         if (!this.state.label || !this.state.creator || this.state.choices.length === 0 || this.state.participants.length === 0) {
-            alert("One field is not filled")
+            alert("One field is not filled");
+            return;
         }
 
-        const choicesForRESTCall = this.state.choices.map(choice => Object.assign({}, {"label": choice}));
-        console.log(choicesForRESTCall)
-        const emailsForRESTCall = this.state.participants.map(choice => Object.assign({}, {"mail": choice}));
+        if (!this.isEmailValid(this.state.creator)) {
+            alert("Your Email adress is not valid");
+            return;
+        }
 
-        axios.post("/api/proposal", Object.assign(this.state, {"choices": choicesForRESTCall}, {"participants": emailsForRESTCall}))
+        if (this.state.participants.find(p => !this.isEmailValid(p))) {
+            alert("One of your participants Email is not valid");
+            return;
+        }
+
+        this.setState({isSubmitingProposal: true});
+
+        const choicesForRESTCall = this.state.choices.map(choice => Object.assign({}, {"label": choice}));
+        const emailsForRESTCall = this.state.participants.map(participant => Object.assign({}, {"mail": participant}));
+
+
+        const payload = Object.assign( {...this.state}, {"choices": choicesForRESTCall}, {"participants": emailsForRESTCall});
+
+        axios.post("/api/proposal", payload)
             .then(response => this.props.history.push("/confirmation/creation/" + this.state.label))
-            .catch(error => alert(error.response.data.message))
+            .catch(error => {
+                alert(error.response.data.message);
+                this.setState({isSubmitingProposal: false});
+            })
+    };
+
+    isEmailValid = (email) => {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
     }
 }
 

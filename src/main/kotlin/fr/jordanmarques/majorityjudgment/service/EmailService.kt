@@ -19,7 +19,7 @@ class EmailService {
 
     fun sendVoteInvitations(emails: List<String>, label: String, id: String) {
         emails.forEach {
-            send("Majority Judgment - It's Time to Vote !",
+            send("Majority Judgment - It's Time to Vote for $label !",
                     """
                         <html>
                             <body>
@@ -34,8 +34,8 @@ class EmailService {
 
     fun sendVoteResultLink(adminEmail: String, label: String, id: String, token: String) {
 
-            send("Majority Judgment - Just for You",
-                    """
+        send("Majority Judgment - Just for You - ($label)",
+                """
                         <html>
                             <body>
                                 <h1>Result Link For $label</h1>

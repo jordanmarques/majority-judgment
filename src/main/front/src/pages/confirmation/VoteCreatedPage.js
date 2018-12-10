@@ -9,6 +9,7 @@ class VoteCreatedPage extends Component {
             <CenteredPage>
                 <PageDefaultBody>
                     <h1 className="display-4">Vote {this.props.match.params.name} created !</h1>
+                    <p>You will receive an email to vote for your proposal and an other one to manage the result.</p>
                 </PageDefaultBody>
             </CenteredPage>
         );

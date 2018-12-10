@@ -1,76 +1,83 @@
-body{
-  margin: 0
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    font-family: sans-serif;
+    text-align: center;
+    background: #7F7FD5;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .App {
-  font-family: sans-serif;
-  text-align: center;
-  background: #7F7FD5;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to bottom, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  height: calc(100vh);
+
 }
 
 .jumbotron {
-  padding-top: 20px!important;
-  background-color: #f8f9fa!important;
+    padding-top: 20px !important;
+    background-color: #f8f9fa !important;
 }
 
-.spaced{
-  margin: 40px 0!important;
+.spaced {
+    margin: 40px 0 !important;
 }
 
 .navbar {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
-.appIcon{
-  margin-right: 10px;
+.appIcon {
+    margin-right: 10px;
 }
 
 .newVoteForm {
-  text-align: left;
+    text-align: left;
 }
 
-.tag{
-  margin: 0 2px;
-  background-color: #7f7fd5;
+.tag {
+    margin: 0 2px;
+    background-color: #7f7fd5;
 }
 
 .noDecoration, .noDecoration:hover {
-  text-decoration: none !important;
-  color: inherit;
+    text-decoration: none !important;
+    color: inherit;
 }
 
-.pointer{
-  cursor: pointer;
+.pointer {
+    cursor: pointer;
 }
 
 .appreciation-color-6 {
-  background-color: red;
+    background-color: red;
 }
 
 .appreciation-color-5 {
-  background-color: #fc8800;
+    background-color: #fc8800;
 }
 
 .appreciation-color-4 {
-  background-color: #f6b500;
+    background-color: #f6b500;
 }
 
 .appreciation-color-3 {
-  background-color: #cbe147;
+    background-color: #cbe147;
 }
 
 .appreciation-color-2 {
-  background-color: #b6e963;
+    background-color: #b6e963;
 }
 
 .appreciation-color-1 {
-  background-color: #8ef699;
+    background-color: #8ef699;
 }
 
 #myChart {
-  width: 100%;
-  height: 500px;
+    width: 100%;
+    height: 500px;
 }
