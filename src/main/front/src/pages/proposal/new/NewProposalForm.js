@@ -22,7 +22,7 @@ const NewProposalForm = props => {
                        className="form-control"
                        id="exampleInputEmail1"
                        aria-describedby="emailHelp"
-                       placeholder="Enter email"
+                       placeholder="Your Email"
                        onChange={props.onEmailChange}/>
             </div>
             <div className="form-group spaced">
