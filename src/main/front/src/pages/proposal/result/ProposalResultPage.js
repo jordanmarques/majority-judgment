@@ -4,7 +4,7 @@ import axios from 'axios'
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import PageDefaultBody from "../../../components/PageDefaultBody";
+import Jumbotron from "../../../components/Jumbotron";
 import CenteredPageLarge from "../../../components/CenteredPageLarge";
 
 class ProposalResultPage extends Component {
@@ -16,6 +16,7 @@ class ProposalResultPage extends Component {
             voteId: props.match.params.id,
             token: props.match.params.token,
             voteName: "",
+            attendees: [],
             result: [],
             winner: {}
         }
@@ -24,6 +25,10 @@ class ProposalResultPage extends Component {
     componentDidMount() {
         axios.get(`/api/proposal/${this.state.voteId}/name`)
             .then(response => this.setState({voteName: response.data}))
+            .catch(error => alert(error.response.data.message));
+
+        axios.get(`/api/proposal/${this.state.voteId}/attendees`)
+            .then(response => this.setState({attendees: response.data}))
             .catch(error => alert(error.response.data.message));
 
         axios.get(`/api/counting/${this.state.voteId}?token=${this.state.token}`)
@@ -58,17 +63,14 @@ class ProposalResultPage extends Component {
                         formatAppreciations(res.results))
                     );
 
-                console.log(chart.data);
-
                 chart.legend = new am4charts.Legend();
                 chart.legend.position = "right";
 
-                // Create axes
-                var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+                const categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
                 categoryAxis.dataFields.category = "choice";
                 categoryAxis.renderer.grid.template.opacity = 0;
 
-                var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+                const valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
                 valueAxis.min = 0;
                 valueAxis.renderer.grid.template.opacity = 0;
                 valueAxis.renderer.ticks.template.strokeOpacity = 0.5;
@@ -78,15 +80,14 @@ class ProposalResultPage extends Component {
                 valueAxis.renderer.baseGrid.disabled = true;
                 valueAxis.renderer.minGridDistance = 40;
 
-                // Create series
                 function createSeries(field, name) {
-                    var series = chart.series.push(new am4charts.ColumnSeries());
+                    const series = chart.series.push(new am4charts.ColumnSeries());
                     series.dataFields.valueX = field;
                     series.dataFields.categoryY = "choice";
                     series.stacked = true;
                     series.name = name;
 
-                    var labelBullet = series.bullets.push(new am4charts.LabelBullet());
+                    const labelBullet = series.bullets.push(new am4charts.LabelBullet());
                     labelBullet.locationX = 0.5;
                     labelBullet.label.text = name + " {valueX}%";
                     labelBullet.label.fill = am4core.color("#fff");
@@ -113,10 +114,25 @@ class ProposalResultPage extends Component {
     render() {
         return (
             <CenteredPageLarge>
-                <PageDefaultBody>
+                <Jumbotron>
                     <h1 className="display-4">{this.state.voteName}</h1>
                     <div id="myChart"/>
-                </PageDefaultBody>
+                </Jumbotron>
+                <Jumbotron>
+                    <h1 className="display-4">Who Voted ?</h1>
+                    <div>
+                        {this.state.attendees.map((attendee, i) => {
+                            console.log(attendee);
+                            const color = attendee.hasVoted ? "hasVoted" : "hasNoVoted";
+                            console.log(color)
+                            return (
+                                <div key={i} className={"attendees " + color}>
+                                    <span>{attendee.mail}</span>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </Jumbotron>
             </CenteredPageLarge>
 
         )

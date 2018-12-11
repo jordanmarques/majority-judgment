@@ -36,6 +36,12 @@ class ProposalService(
                 ?: run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
     }
 
+    fun attendees(proposalId: String): List<Participant> {
+        proposalDao.byId(proposalId)
+                ?.let { proposal -> return proposal.participants }
+                ?: run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
+    }
+
     fun vote(proposalId: String, userVoteDto: UserVoteDto) {
 
         `check if more than one vote exist per proposition `(userVoteDto)

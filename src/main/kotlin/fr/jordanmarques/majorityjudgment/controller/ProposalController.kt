@@ -2,6 +2,7 @@ package fr.jordanmarques.majorityjudgment.controller
 
 import fr.jordanmarques.majorityjudgment.dto.UserVoteDto
 import fr.jordanmarques.majorityjudgment.model.Choice
+import fr.jordanmarques.majorityjudgment.model.Participant
 import fr.jordanmarques.majorityjudgment.model.Proposal
 import fr.jordanmarques.majorityjudgment.service.ProposalService
 import org.springframework.web.bind.annotation.*
@@ -36,5 +37,10 @@ class ProposalController(
     @RequestMapping(value= ["/proposal/{proposalId}/name"], method = [GET])
     fun name(@PathVariable("proposalId") proposalId: String): String {
         return proposalService.name(proposalId)
+    }
+
+    @RequestMapping(value= ["/proposal/{proposalId}/attendees"], method = [GET])
+    fun attendees(@PathVariable("proposalId") proposalId: String): List<Participant> {
+        return proposalService.attendees(proposalId)
     }
 }

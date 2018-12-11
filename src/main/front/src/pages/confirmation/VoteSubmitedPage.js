@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import CenteredPage from "../../components/CenteredPage";
-import PageDefaultBody from "../../components/PageDefaultBody";
+import Jumbotron from "../../components/Jumbotron";
 
 class VoteSubmitedPage extends Component {
     render() {
         return (
             <CenteredPage>
-                <PageDefaultBody>
+                <Jumbotron>
                     <h1 className="display-4">Vote Submited, Thanks !</h1>
-                </PageDefaultBody>
+                </Jumbotron>
             </CenteredPage>
         );
     }

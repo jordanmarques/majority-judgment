@@ -108,3 +108,15 @@ body {
     margin: 0 auto;
     float: none;
 }
+
+.attendees{
+    margin: 10px;
+}
+
+.hasVoted {
+    color: #2ed573;
+}
+
+.hasNoVoted {
+    color: #ff4757;
+}

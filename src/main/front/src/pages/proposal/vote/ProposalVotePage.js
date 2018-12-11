@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios'
 import VoteLine from "./VoteLine";
 import CenteredPage from "../../../components/CenteredPage";
-import PageDefaultBody from "../../../components/PageDefaultBody";
+import Jumbotron from "../../../components/Jumbotron";
 import Ripple from "../../../images/Ripple";
 
 class ProposalVotePage extends Component {
@@ -39,7 +39,7 @@ class ProposalVotePage extends Component {
     render() {
         return (
             <CenteredPage>
-                <PageDefaultBody>
+                <Jumbotron>
                     <h1>{this.state.voteName}</h1>
                     <br/>
                     <div className="col col-md-10 offset-md-1">
@@ -66,7 +66,7 @@ class ProposalVotePage extends Component {
                                 </div>
                         }
                     </div>
-                </PageDefaultBody>
+                </Jumbotron>
             </CenteredPage>
         );
     }

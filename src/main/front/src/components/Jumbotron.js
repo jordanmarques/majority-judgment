@@ -1,6 +1,6 @@
 import React from "react";
 
-const PageDefaultBody = ({children}) => {
+const Jumbotron = ({children}) => {
     return(
         <div className="jumbotron">
             {children}
@@ -8,4 +8,4 @@ const PageDefaultBody = ({children}) => {
     )
 };
 
-export default PageDefaultBody
+export default Jumbotron

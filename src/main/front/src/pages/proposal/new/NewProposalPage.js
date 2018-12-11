@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import NewProposalForm from "./NewProposalForm";
 import axios from 'axios'
 import CenteredPage from "../../../components/CenteredPage";
-import PageDefaultBody from "../../../components/PageDefaultBody";
+import Jumbotron from "../../../components/Jumbotron";
 import Ripple from "../../../images/Ripple";
 
 class NewProposalPage extends Component {
@@ -22,7 +22,7 @@ class NewProposalPage extends Component {
     render() {
         return (
             <CenteredPage>
-                <PageDefaultBody>
+                <Jumbotron>
                     <NewProposalForm
                         onVoteNameChange={e => this.setState({"label": e.target.value})}
                         onEmailChange={e => this.setState({"creator": e.target.value})}
@@ -41,7 +41,7 @@ class NewProposalPage extends Component {
                         }
 
                     </div>
-                </PageDefaultBody>
+                </Jumbotron>
             </CenteredPage>
         );
     }
