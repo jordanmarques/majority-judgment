@@ -89,7 +89,7 @@ class ProposalResultPage extends Component {
 
                     const labelBullet = series.bullets.push(new am4charts.LabelBullet());
                     labelBullet.locationX = 0.5;
-                    labelBullet.label.text = name + " {valueX}%";
+                    labelBullet.label.text = "{valueX}%";
                     labelBullet.label.fill = am4core.color("#fff");
                 }
 
