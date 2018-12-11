@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Ubuntu:300);
+
 html {
     height: 100%;
 }
@@ -5,13 +7,19 @@ html {
 body {
     height: 100%;
     margin: 0;
-    font-family: sans-serif;
     text-align: center;
     background: #7F7FD5;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to bottom, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to bottom, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background-repeat: no-repeat;
     background-attachment: fixed;
+    font-family: 'Ubuntu', serif;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 1.3em;
+    line-height: 2;
+    font-weight: 300;
+    text-rendering: optimizeLegibility;
 }
 
 .App {

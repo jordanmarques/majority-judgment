@@ -1,17 +1,20 @@
 import React from 'react';
-
-import HammerIcon from '../images/HammerIcon'
 import {Link} from "react-router-dom"
+import "../logo-animation.css"
 
-const NavBar = props => {
+const NavBar = () => {
+
+    const renderName = (name) => {
+        return name.trim().split("").map(char => <span>{char}</span>)
+    };
+
     return (
         <nav className="navbar navbar-light bg-light">
             <div className="navbar-brand">
                 <Link className={"noDecoration"} to={"/"}>
-                <span className="appIcon">
-                    <HammerIcon/>
-                </span>
-                    <span>Majority Judgment</span>
+                    <span className="animation anim-text-flow">
+                        {renderName("Θέμις - MAJORITY JUDGMENT")}
+                    </span>
                 </Link>
             </div>
         </nav>
