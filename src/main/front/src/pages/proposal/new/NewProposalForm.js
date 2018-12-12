@@ -35,7 +35,9 @@ const NewProposalForm = props => {
                        placeholder="Attendees"
                        onChange={props.onAtendeesChange}/>
                 <small id="attendees" className="form-text text-muted">enter attendees emails separate by a ','</small>
-                {props.emailsFormated.map((email, i) => <kbd key={i} className="tag">{email}</kbd>)}
+                <div className="wrap">
+                    {props.emailsFormated.map((email, i) => <kbd key={i} className="tag">{email}</kbd>)}
+                </div>
             </div>
             <div className="form-group spaced">
                 <label htmlFor="choices">
@@ -47,7 +49,9 @@ const NewProposalForm = props => {
                        placeholder="Choices"
                        onChange={props.onChoicesChange}/>
                 <small id="attendees" className="form-text text-muted">enter choices separate by a ','</small>
-                {props.choicesFormated.map((choice, i) => <kbd key={i} className="tag">{choice}</kbd>)}
+                <div className="wrap">
+                    {props.choicesFormated.map((choice, i) => <kbd key={i} className="tag">{choice}</kbd>)}
+                </div>
             </div>
         </div>
     );

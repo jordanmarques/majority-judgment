@@ -50,8 +50,13 @@ body {
     text-transform: uppercase;
 }
 
+.wrap{
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .tag {
-    margin: 0 2px;
+    margin: 2px;
     background-color: #7f7fd5;
 }
 

@@ -47,9 +47,14 @@ class NewProposalPage extends Component {
     }
 
     splitAndClean = (string) => {
+
+        if(string === "")
+            return [];
+
         return string
             .split(",")
-            .map(email => email.trim());
+            .map(email => email.trim())
+            .filter(item => item !=="");
     };
 
     submitNewProposal = () => {
