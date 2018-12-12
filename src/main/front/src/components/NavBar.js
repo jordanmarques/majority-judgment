@@ -5,7 +5,7 @@ import "../logo-animation.css"
 const NavBar = () => {
 
     const renderName = (name) => {
-        return name.trim().split("").map(char => <span>{char}</span>)
+        return name.trim().split("").map((char, i) => <span key={i}>{char}</span>)
     };
 
     return (

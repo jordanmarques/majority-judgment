@@ -42,7 +42,7 @@ class ProposalVotePage extends Component {
                 <Jumbotron>
                     <h1>{this.state.voteName}</h1>
                     <br/>
-                    <div className="col col-md-10 offset-md-1">
+                    <div className={"col col-md-1O offset-md-1 votePageTable"}>
                         {
                             this.state.choices.map((choice, i) => <VoteLine
                                 key={i}
