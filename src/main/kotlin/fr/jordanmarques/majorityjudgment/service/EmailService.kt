@@ -40,7 +40,7 @@ class EmailService {
                             <body>
                                 <h1>Result Link For $label</h1>
                                 <p>As you are the admin of this vote, we provide you the result link of the vote.</p>
-                                <p><a href="${address}/proposal/result/$id/$token">${address}/proposal/result/$id/token</a></p>
+                                <p><a href="${address}/proposal/result/$id/$token">${address}/proposal/result/$id/$token</a></p>
                             </body>
                         </html>
                     """.trimIndent(), adminEmail)
