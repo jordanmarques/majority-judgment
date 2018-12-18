@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 
 import axios from 'axios'
-import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import Chart from 'chart.js';
 import Jumbotron from "../../../components/Jumbotron";
 import CenteredPageLarge from "../../../components/CenteredPageLarge";
+import Crown from "../../../images/Crown";
 
 class ProposalResultPage extends Component {
 
@@ -18,7 +17,7 @@ class ProposalResultPage extends Component {
             voteName: "",
             attendees: [],
             result: [],
-            winner: {}
+            winner: ""
         }
     }
 
@@ -33,98 +32,66 @@ class ProposalResultPage extends Component {
 
         axios.get(`/api/counting/${this.state.voteId}?token=${this.state.token}`)
             .then(response => {
+                this.setState({winner: this.cleanLabel(response.data.winner.label)});
                 const result = response.data.result;
-                am4core.useTheme(am4themes_animated);
-                let chart = am4core.create("myChart", am4charts.XYChart);
 
-                const appreciation = () => {
-                    return {
-                        VERY_GOOD: 0,
-                        GOOD: 0,
-                        PRETTY_GOOD: 0,
-                        FAIR: 0,
-                        BAD: 0,
-                        REJECT: 0
+                const ctx = document.getElementById("myChart");
+
+                const datasets = this.transformDataForGraph(result, [
+                    "VERY_GOOD",
+                    "GOOD",
+                    "PRETTY_GOOD",
+                    "FAIR",
+                    "BAD",
+                    "REJECT"
+                ]);
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: result.map(res => this.cleanLabel(res.label)),
+                        datasets: datasets
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                stacked: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    max: 100
+                                }
+                            }],
+                            xAxes: [{
+                                stacked: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    autoSkip: false
+                                }
+                            }]
+
+                        }
                     }
-                };
-
-                const formatAppreciations = (results) => {
-                    const formated = results.reduce((acc, note) => {
-                        acc[note.appreciation] = note.note;
-                        return acc
-                    }, {});
-                    return Object.assign(appreciation(), formated);
-                };
-
-                chart.data = result
-                    .map(res => Object.assign(
-                        {},
-                        {choice: this.cleanTitle(res.label)},
-                        formatAppreciations(res.results))
-                    );
-
-                chart.legend = new am4charts.Legend();
-                chart.legend.position = "right";
-
-                const categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-                categoryAxis.dataFields.category = "choice";
-                categoryAxis.renderer.grid.template.opacity = 0;
-
-                const valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
-                valueAxis.min = 0;
-                valueAxis.renderer.grid.template.opacity = 0;
-                valueAxis.renderer.ticks.template.strokeOpacity = 0.5;
-                valueAxis.renderer.ticks.template.stroke = am4core.color("#495C43");
-                valueAxis.renderer.ticks.template.length = 10;
-                valueAxis.renderer.line.strokeOpacity = 0.5;
-                valueAxis.renderer.baseGrid.disabled = true;
-                valueAxis.renderer.minGridDistance = 40;
-
-                function createSeries(field, name) {
-                    const series = chart.series.push(new am4charts.ColumnSeries());
-                    series.dataFields.valueX = field;
-                    series.dataFields.categoryY = "choice";
-                    series.stacked = true;
-                    series.name = name;
-
-                    const labelBullet = series.bullets.push(new am4charts.LabelBullet());
-                    labelBullet.locationX = 0.5;
-                    labelBullet.label.text = "{valueX}%";
-                    labelBullet.label.fill = am4core.color("#fff");
-                }
-
-                createSeries("VERY_GOOD", "VERY GOOD");
-                createSeries("GOOD", "GOOD");
-                createSeries("PRETTY_GOOD", "PRETTY GOOD");
-                createSeries("FAIR", "FAIR");
-                createSeries("BAD", "BAD");
-                createSeries("REJECT", "REJECT");
+                });
             })
             .catch(error => alert(error.response.data.message));
     }
-
-    cleanTitle = (title) => {
-        return this.capitalizeFirstLetter(title.replace("_", " "));
-    };
-
-    capitalizeFirstLetter = (string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1);
-    };
 
     render() {
         return (
             <CenteredPageLarge>
                 <Jumbotron>
                     <h1 className="display-4">{this.state.voteName}</h1>
-                    <div id="myChart"/>
+                    <canvas id="myChart"/>
+                    <div className="">
+                        <Crown height={50}/>
+                        <h1 className="display-10">{this.state.winner}</h1>
+                    </div>
                 </Jumbotron>
                 <Jumbotron>
                     <h1 className="display-4">Who Voted ?</h1>
                     <div>
                         {this.state.attendees.map((attendee, i) => {
-                            console.log(attendee);
                             const color = attendee.hasVoted ? "hasVoted" : "hasNoVoted";
-                            console.log(color)
                             return (
                                 <div key={i} className={"attendees " + color}>
                                     <span>{attendee.mail}</span>
@@ -137,6 +104,58 @@ class ProposalResultPage extends Component {
 
         )
 
+    }
+
+    transformDataForGraph = (result, appreciations) => {
+        return appreciations.map(appreciation => {
+            const object = {};
+            object.label = this.cleanLabel(appreciation);
+
+            const appreciationNotes = [];
+            const backgroundColor = [];
+
+            result.forEach(res => {
+                const note = res.results.find(n => n.appreciation === appreciation);
+                const color = this.getColorForAppreciation(appreciation);
+
+                backgroundColor.push(color);
+
+                if (note) {
+                    appreciationNotes.push(note.note)
+                } else {
+                    appreciationNotes.push(0)
+                }
+
+            });
+
+            object.backgroundColor = backgroundColor;
+            object.data = appreciationNotes;
+
+            return object;
+        });
+    };
+
+    getColorForAppreciation = (appreciation) => {
+        switch (appreciation) {
+            case "VERY_GOOD":
+                return "#64b5de";
+            case "GOOD" :
+                return "#6592de";
+            case "PRETTY_GOOD" :
+                return "#666dde";
+            case "FAIR" :
+                return "#8062df";
+            case "BAD" :
+                return "#a462df";
+            case "REJECT":
+                return "#c862de";
+            default :
+                return "red";
+        }
+    };
+
+    cleanLabel = (label) => {
+        return label.replace("_", " ").toUpperCase()
     }
 }
 
