@@ -18,7 +18,7 @@ class EmailService {
     lateinit var address: String
 
     fun sendVoteInvitations(emails: List<String>, label: String, id: String) {
-        emails.forEach {
+
             send("Majority Judgment - It's Time to Vote for $label !",
                     """
                         <html>
@@ -28,8 +28,8 @@ class EmailService {
                                 <p>You can access to the vote link at this address: <a href="${address}/proposal/vote/$id">${address}/proposal/vote/$id</a></p>
                             </body>
                         </html>
-                    """.trimIndent(), it)
-        }
+                    """.trimIndent(), emails)
+
     }
 
     fun sendVoteResultLink(adminEmail: String, label: String, id: String, token: String) {
@@ -43,18 +43,20 @@ class EmailService {
                                 <p><a href="${address}/proposal/result/$id/$token">${address}/proposal/result/$id/$token</a></p>
                             </body>
                         </html>
-                    """.trimIndent(), adminEmail)
+                    """.trimIndent(), mutableListOf(adminEmail))
 
     }
 
-    private fun send(subject: String, body: String, receiver: String) {
+    private fun send(subject: String, body: String, receivers: List<String>) {
         val email = HtmlEmail()
+
+        receivers.forEach { email.addBcc(it) }
+
         email.hostName = "smtp.gmail.com"
         email.setSmtpPort(465)
         email.isSSL = true
         email.setAuthenticator(DefaultAuthenticator(sender, password))
         email.setFrom(sender)
-        email.addTo(receiver)
         email.subject = subject
         email.setHtmlMsg(body)
         email.send()
