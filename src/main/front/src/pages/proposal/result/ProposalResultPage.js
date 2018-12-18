@@ -5,6 +5,7 @@ import Chart from 'chart.js';
 import Jumbotron from "../../../components/Jumbotron";
 import CenteredPageLarge from "../../../components/CenteredPageLarge";
 import Crown from "../../../images/Crown";
+import ColoredText from "../../../components/ColoredText";
 
 class ProposalResultPage extends Component {
 
@@ -82,9 +83,11 @@ class ProposalResultPage extends Component {
                 <Jumbotron>
                     <h1 className="display-4">{this.state.voteName}</h1>
                     <canvas id="myChart"/>
-                    <div className="">
+                    <div className="winnerSection">
                         <Crown height={50}/>
-                        <h1 className="display-10">{this.state.winner}</h1>
+                        <h1>
+                            <ColoredText text={this.state.winner}/>
+                        </h1>
                     </div>
                 </Jumbotron>
                 <Jumbotron>

@@ -1,20 +1,15 @@
 import React from 'react';
 import {Link} from "react-router-dom"
 import "../logo-animation.css"
+import ColoredText from "./ColoredText";
 
 const NavBar = () => {
-
-    const renderName = (name) => {
-        return name.trim().split("").map((char, i) => <span key={i}>{char}</span>)
-    };
 
     return (
         <nav className="navbar navbar-light bg-light">
             <div className="navbar-brand">
                 <Link className={"noDecoration"} to={"/"}>
-                    <span className="animation anim-text-flow">
-                        {renderName("Θέμις - MAJORITY JUDGMENT")}
-                    </span>
+                    <ColoredText text={"Θέμις - MAJORITY JUDGMENT"}/>
                 </Link>
             </div>
         </nav>
