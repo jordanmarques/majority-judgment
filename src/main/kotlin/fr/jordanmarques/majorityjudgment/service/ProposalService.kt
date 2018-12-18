@@ -52,7 +52,7 @@ class ProposalService(
                     `check if vote is closed`(proposal)
 
                     proposal.participants
-                            .find { participant -> participant.mail == userVoteDto.mail }
+                            .find { participant -> participant.mail.toLowerCase() == userVoteDto.mail.toLowerCase() }
                             ?.let { participant ->
 
                                 `check if user has already voted`(participant)
