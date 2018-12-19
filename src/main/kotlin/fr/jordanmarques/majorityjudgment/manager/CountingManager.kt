@@ -16,10 +16,8 @@ class CountingManager(
                     if (proposal.adminToken != adminToken) throw RuntimeException("Token is not correct")
 
                     val count = countingService.count(proposal.votes)
-                    val resultPerProposition = count
-                            .map { countingService.defineMajoritaryAppreciation(it) }
 
-                    val winner = countingService.findWinner(resultPerProposition)
+                    val winner = countingService.findWinner(count)
 
                     return CountingResultDto(winner, count)
                 }

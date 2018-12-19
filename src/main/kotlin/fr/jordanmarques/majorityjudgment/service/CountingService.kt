@@ -23,6 +23,14 @@ class CountingService(
                 }
     }
 
+    fun findWinner( count: List<ChoiceAppreciationsCount>): MajorityAppreciation {
+
+        val majoritaryAppreciationsPerChoice = count
+                .map { defineMajoritaryAppreciation(it) }
+
+        return majoritaryAppreciationsPerChoice.maxWith(compareBy({ it.note.appreciation.weight }, { it.note.note }))!!
+    }
+
     fun defineMajoritaryAppreciation(count: ChoiceAppreciationsCount): MajorityAppreciation {
         val majoritaryAppreciation = count.results
                 .sortedBy { it.appreciation.weight }
@@ -36,10 +44,6 @@ class CountingService(
                 }
 
         return MajorityAppreciation(count.label, majoritaryAppreciation)
-    }
-
-    fun findWinner(majoritaryAppreciationsPerChoice: List<MajorityAppreciation>): MajorityAppreciation {
-        return majoritaryAppreciationsPerChoice.maxWith(compareBy({ it.note.appreciation.weight }, { it.note.note }))!!
     }
 
     private fun roundToOneDecimal(number: Float): Float {

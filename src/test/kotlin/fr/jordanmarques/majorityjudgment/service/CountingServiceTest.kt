@@ -1,12 +1,7 @@
 package fr.jordanmarques.majorityjudgment.service
 
 import fr.jordanmarques.majorityjudgment.dao.ProposalDao
-import fr.jordanmarques.majorityjudgment.model.ChoiceAppreciationsCount
-import fr.jordanmarques.majorityjudgment.model.MajorityAppreciation
-import fr.jordanmarques.majorityjudgment.model.Result
-import fr.jordanmarques.majorityjudgment.model.Appreciation
-import fr.jordanmarques.majorityjudgment.model.Choice
-import fr.jordanmarques.majorityjudgment.model.Vote
+import fr.jordanmarques.majorityjudgment.model.*
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
@@ -79,15 +74,24 @@ class CountingServiceTest {
     @Test
     fun `should find the winner`() {
 
-        val majoritaryAppreciationsPerChoice = mutableListOf(
-                MajorityAppreciation("KANA-BOON", Result(Appreciation.VERY_GOOD, 52F)),
-                MajorityAppreciation("JUSTICE", Result(Appreciation.PRETTY_GOOD, 54F)),
-                MajorityAppreciation("U2", Result(Appreciation.BAD, 64F))
+        val count = mutableListOf(
+                ChoiceAppreciationsCount(
+                "KANA-BOON",
+                mutableListOf(
+                        Result(Appreciation.VERY_GOOD, 60F),
+                        Result(Appreciation.BAD, 20F)
+                )),
+                ChoiceAppreciationsCount(
+                "Justice",
+                mutableListOf(
+                        Result(Appreciation.VERY_GOOD, 30F),
+                        Result(Appreciation.PRETTY_GOOD, 20F)
+                ))
         )
 
-        val expected = MajorityAppreciation("KANA-BOON", Result(Appreciation.VERY_GOOD, 52F))
+        val expected = MajorityAppreciation("KANA-BOON", Result(Appreciation.VERY_GOOD, 60F))
 
-        val result = countingService.findWinner(majoritaryAppreciationsPerChoice)
+        val result = countingService.findWinner(count)
 
         Assertions.assertThat(result).isEqualTo(expected)
 
@@ -96,14 +100,26 @@ class CountingServiceTest {
     @Test
     fun `should find the winner between 2 same appreciation`() {
 
-        val majoritaryAppreciationsPerChoice = mutableListOf(
-                MajorityAppreciation("KANA-BOON", Result(Appreciation.VERY_GOOD, 58F)),
-                MajorityAppreciation("JUSTICE", Result(Appreciation.VERY_GOOD, 59F))
+        val count = mutableListOf(
+                ChoiceAppreciationsCount(
+                        "JUSTICE",
+                        mutableListOf(
+                                Result(Appreciation.BAD, 20F),
+                                Result(Appreciation.GOOD, 30F),
+                                Result(Appreciation.VERY_GOOD, 36F)
+                        )),
+                ChoiceAppreciationsCount(
+                        "U2",
+                        mutableListOf(
+                                Result(Appreciation.BAD, 20F),
+                                Result(Appreciation.GOOD, 25F),
+                                Result(Appreciation.VERY_GOOD, 49F)
+                        ))
         )
 
-        val expected = MajorityAppreciation("JUSTICE", Result(Appreciation.VERY_GOOD, 59F))
+        val expected = MajorityAppreciation("U2", Result(Appreciation.GOOD, 74F))
 
-        val result = countingService.findWinner(majoritaryAppreciationsPerChoice)
+        val result = countingService.findWinner(count)
 
         Assertions.assertThat(result).isEqualTo(expected)
 
