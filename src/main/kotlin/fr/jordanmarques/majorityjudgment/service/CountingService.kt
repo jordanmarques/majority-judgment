@@ -25,10 +25,10 @@ class CountingService(
 
     fun findWinner( count: List<ChoiceAppreciationsCount>): MajorityAppreciation {
 
-        val majoritaryAppreciationsPerChoice = count
+        val sumOfAppreciationsNote = count
                 .map { defineMajoritaryAppreciation(it) }
 
-        return majoritaryAppreciationsPerChoice.maxWith(compareBy({ it.note.appreciation.weight }, { it.note.note }))!!
+        return sumOfAppreciationsNote.maxWith(compareBy({ it.note.appreciation.weight }, { it.note.note }))!!
     }
 
     fun defineMajoritaryAppreciation(count: ChoiceAppreciationsCount): MajorityAppreciation {

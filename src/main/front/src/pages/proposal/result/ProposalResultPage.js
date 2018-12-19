@@ -18,7 +18,13 @@ class ProposalResultPage extends Component {
             voteName: "",
             attendees: [],
             result: [],
-            winner: ""
+            winner: {
+                label: "",
+                note: {
+                    note: "",
+                    appreciation: ""
+                }
+            }
         }
     }
 
@@ -33,7 +39,7 @@ class ProposalResultPage extends Component {
 
         axios.get(`/api/counting/${this.state.voteId}?token=${this.state.token}`)
             .then(response => {
-                this.setState({winner: this.cleanLabel(response.data.winner.label)});
+                this.setState({winner: response.data.winner});
                 const result = response.data.result;
 
                 const ctx = document.getElementById("myChart");
@@ -86,8 +92,11 @@ class ProposalResultPage extends Component {
                     <div className="winnerSection">
                         <Crown height={50}/>
                         <h1>
-                            <ColoredText text={this.state.winner}/>
+                            <ColoredText text={this.cleanLabel(this.state.winner.label)}/>
                         </h1>
+                    </div>
+                    <div className="text-center">
+                        <span>At least {this.state.winner.note.note}% of voters found {this.cleanLabel(this.state.winner.label)} {this.cleanLabel(this.state.winner.note.appreciation)}</span>
                     </div>
                 </Jumbotron>
                 <Jumbotron>
@@ -158,6 +167,10 @@ class ProposalResultPage extends Component {
     };
 
     cleanLabel = (label) => {
+
+        if (!label)
+            return label;
+
         return label.replace("_", " ").toUpperCase()
     }
 }
