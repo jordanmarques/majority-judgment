@@ -47,6 +47,18 @@ class EmailService {
 
     }
 
+    fun sendReminder(emails: List<String>, label: String, id: String) {
+        send("Majority Judgment - Don't forget to Vote for $label !",
+                """
+                        <html>
+                            <body>
+                                <h1>Don't forget to vote for $label</h1>
+                                <p>You can access to the vote link at this address: <a href="${address}/proposal/vote/$id">${address}/proposal/vote/$id</a></p>
+                            </body>
+                        </html>
+                    """.trimIndent(), emails)
+    }
+
     private fun send(subject: String, body: String, receivers: List<String>) {
         val email = HtmlEmail()
 

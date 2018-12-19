@@ -6,6 +6,7 @@ import Jumbotron from "../../../components/Jumbotron";
 import CenteredPageLarge from "../../../components/CenteredPageLarge";
 import Crown from "../../../images/Crown";
 import ColoredText from "../../../components/ColoredText";
+import Ripple from "../../../images/Ripple";
 
 class ProposalResultPage extends Component {
 
@@ -18,6 +19,7 @@ class ProposalResultPage extends Component {
             voteName: "",
             attendees: [],
             result: [],
+            sendingReminder: false,
             winner: {
                 label: "",
                 note: {
@@ -111,6 +113,12 @@ class ProposalResultPage extends Component {
                             )
                         })}
                     </div>
+                    {
+                        this.state.sendingReminder
+                            ? <Ripple/>
+                            : <button className="btn btn-primary" onClick={() => this.remind()}>Send a Reminder to non voters</button>
+                    }
+
                 </Jumbotron>
             </CenteredPageLarge>
 
@@ -172,6 +180,18 @@ class ProposalResultPage extends Component {
             return label;
 
         return label.replace("_", " ").toUpperCase()
+    };
+
+    remind = () => {
+        this.setState({sendingReminder: true});
+      axios.get(`/api/revival/${this.state.voteId}?token=${this.state.token}`)
+          .then(response => {
+              this.setState({sendingReminder: false});
+          })
+          .catch(error => {
+              this.setState({sendingReminder: false});
+              alert(error.response.data.message)
+          });
     }
 }
 

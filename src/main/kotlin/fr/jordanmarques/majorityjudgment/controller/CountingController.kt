@@ -14,4 +14,9 @@ class CountingController(
     fun counting(@PathVariable("proposalId") proposalId: String, @RequestParam("token") adminToken: String): CountingResultDto {
         return countingManager.counting(proposalId, adminToken)
     }
+
+    @RequestMapping(value = ["/revival/{proposalId}"], method = [RequestMethod.GET])
+    fun revival(@PathVariable("proposalId") proposalId: String, @RequestParam("token") adminToken: String) {
+        return countingManager.revival(proposalId, adminToken)
+    }
 }
