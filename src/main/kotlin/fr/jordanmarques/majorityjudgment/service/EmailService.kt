@@ -4,6 +4,7 @@ import org.apache.commons.mail.DefaultAuthenticator
 import org.apache.commons.mail.HtmlEmail
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import java.nio.charset.Charset
 
 @Service
 class EmailService {
@@ -19,44 +20,34 @@ class EmailService {
 
     fun sendVoteInvitations(emails: List<String>, label: String, id: String) {
 
-            send("Majority Judgment - It's Time to Vote for $label !",
-                    """
-                        <html>
-                            <body>
-                                <h1>Vote for $label</h1>
-                                <p>Someone just invite you to vote for $label.</p>
-                                <p>You can access to the vote link at this address: <a href="${address}/proposal/vote/$id">${address}/proposal/vote/$id</a></p>
-                            </body>
-                        </html>
-                    """.trimIndent(), emails)
+        val title = "Vote for $label"
+        val content = "Someone just invite you to vote for $label."
+        val btnLabel = "Vote"
+        val btnLink = "$address/proposal/vote/$id"
+
+        send("Vote for $label !", emailContent(title, content, btnLabel, btnLink), emails)
 
     }
 
     fun sendVoteResultLink(adminEmail: String, label: String, id: String, token: String) {
 
-        send("Majority Judgment - Just for You - ($label)",
-                """
-                        <html>
-                            <body>
-                                <h1>Result Link For $label</h1>
-                                <p>As you are the admin of this vote, we provide you the result link of the vote.</p>
-                                <p><a href="${address}/proposal/result/$id/$token">${address}/proposal/result/$id/$token</a></p>
-                            </body>
-                        </html>
-                    """.trimIndent(), mutableListOf(adminEmail))
+        val title = "Result Link For $label"
+        val content = "As you are the admin of this vote, we provide you the result link of the vote."
+        val btnLabel = "Vote Results"
+        val btnLink = "$address/proposal/result/$id/$token"
+
+        send("Result Link for $label", emailContent(title, content, btnLabel, btnLink), mutableListOf(adminEmail))
 
     }
 
     fun sendReminder(emails: List<String>, label: String, id: String) {
-        send("Majority Judgment - Don't forget to Vote for $label !",
-                """
-                        <html>
-                            <body>
-                                <h1>Don't forget to vote for $label</h1>
-                                <p>You can access to the vote link at this address: <a href="${address}/proposal/vote/$id">${address}/proposal/vote/$id</a></p>
-                            </body>
-                        </html>
-                    """.trimIndent(), emails)
+
+        val title = "Don't forget to vote for $label"
+        val content = "This is your last chance to vote for $label !"
+        val btnLabel = "Vote"
+        val btnLink = "$address/proposal/vote/$id"
+
+        send("Don't forget to Vote for $label !", emailContent(title, content, btnLabel, btnLink), emails)
     }
 
     private fun send(subject: String, body: String, receivers: List<String>) {
@@ -72,5 +63,18 @@ class EmailService {
         email.subject = subject
         email.setHtmlMsg(body)
         email.send()
+    }
+
+    private fun template(): String {
+        return javaClass.classLoader.getResource("email_template.html").readText(Charset.defaultCharset())
+    }
+
+    private fun emailContent(title: String, content: String, btnLabel: String, btnLink: String): String {
+        return template()
+                .replace("|title|", title)
+                .replace("|content|", content)
+                .replace("|btn-label|", btnLabel)
+                .replace("|btn-link|", btnLink)
+
     }
 }
