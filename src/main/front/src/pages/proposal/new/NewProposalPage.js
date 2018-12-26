@@ -1,20 +1,21 @@
 import React, {Component} from 'react';
-import NewProposalForm from "./NewProposalForm";
 import axios from 'axios'
 import CenteredPage from "../../../components/CenteredPage";
 import Jumbotron from "../../../components/Jumbotron";
 import Ripple from "../../../images/Ripple";
+import TagInput from "../../../components/TagInput";
+import Input from "../../../components/Input";
 
 class NewProposalPage extends Component {
 
-    constructor() {
+    constructor(props) {
         super();
 
         this.state = {
-            label: "",
+            label: props.match.params.name,
             creator: "",
-            choices: [],
-            participants: [],
+            choices: props.match.params.choices.split("|") || [],
+            participants:  props.match.params.attendees.split("|") || [],
             isSubmitingProposal: false
         }
     }
@@ -23,15 +24,10 @@ class NewProposalPage extends Component {
         return (
             <CenteredPage>
                 <Jumbotron>
-                    <NewProposalForm
-                        onVoteNameChange={e => this.setState({"label": e.target.value})}
-                        onEmailChange={e => this.setState({"creator": e.target.value})}
-                        onAtendeesChange={e => this.setState({"participants": this.splitAndClean(e.target.value)})}
-                        onChoicesChange={e => this.setState({"choices": this.splitAndClean(e.target.value)})}
-                        emailsFormated={this.state.participants}
-                        choicesFormated={this.state.choices}
-                        onSubmit={this.submitNewProposal}
-                    />
+                    <Input name={"Vote Name"} value={this.state.label} onChange={value  => this.setState({label: value})}/>
+                    <Input name={"Email Address"} onChange={value  => this.setState({creator: value})}/>
+                    <TagInput name={"Attendees"} values={this.state.participants} onTagsChange={tags => this.setState({participants: tags})}/>
+                    <TagInput name={"Choices"} values={this.state.choices} onTagsChange={tags => this.setState({choices: tags})}/>
                     <div className="text-center">
                         {this.state.isSubmitingProposal
                             ? <Ripple/>
@@ -45,17 +41,6 @@ class NewProposalPage extends Component {
             </CenteredPage>
         );
     }
-
-    splitAndClean = (string) => {
-
-        if(string === "")
-            return [];
-
-        return string
-            .split(",")
-            .map(email => email.trim())
-            .filter(item => item !=="");
-    };
 
     submitNewProposal = () => {
 
