@@ -14,8 +14,8 @@ class NewProposalPage extends Component {
         this.state = {
             label: props.match.params.name,
             creator: "",
-            choices: props.match.params.choices.split("|") || [],
-            participants:  props.match.params.attendees.split("|") || [],
+            choices: props.match.params.choices ? props.match.params.choices.split("|") : [],
+            participants:  props.match.params.attendees ? props.match.params.attendees.split("|") : [],
             isSubmitingProposal: false
         }
     }
