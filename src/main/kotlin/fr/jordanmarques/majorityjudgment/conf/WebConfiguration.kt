@@ -9,11 +9,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 class WebConfiguration : WebMvcConfigurerAdapter() {
 
     override fun addViewControllers(registry: ViewControllerRegistry) {
-        registry.addViewController("/{spring:[\\w-]+}")
+        registry.addViewController("/{[path:[^\\.]*}")
                 .setViewName("forward:/")
-        registry.addViewController("/**/{spring:[\\w-]+}")
+        registry.addViewController("/**/{[path:[^\\.]*}")
                 .setViewName("forward:/")
-        registry.addViewController("/{spring:[\\w-]+}/**{spring:?!(\\.js|\\.css)$}")
+        registry.addViewController("/{[path:[^\\.]*}/**{spring:?!(\\.js|\\.css)$}")
                 .setViewName("forward:/")
     }
 }

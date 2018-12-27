@@ -14,9 +14,3 @@ class MajorityJudgment
 fun main(args: Array<String>) {
     runApplication<MajorityJudgment>(*args)
 }
-
-@RequestMapping(value = ["/**/{[path:[^\\.]*}"])
-fun redirect(): String {
-    // Forward to home page so that route is preserved.
-    return "forward:/"
-}
