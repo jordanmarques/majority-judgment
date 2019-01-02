@@ -1,5 +1,6 @@
 package fr.jordanmarques.majorityjudgment.service
 
+import fr.jordanmarques.majorityjudgment.model.Participant
 import org.apache.commons.mail.DefaultAuthenticator
 import org.apache.commons.mail.HtmlEmail
 import org.springframework.beans.factory.annotation.Value
@@ -18,15 +19,16 @@ class EmailService {
     @Value("\${application.address}")
     lateinit var address: String
 
-    fun sendVoteInvitations(emails: List<String>, label: String, id: String) {
+    fun sendVoteInvitations(attendees: MutableList<Participant>, label: String, id: String) {
 
         val title = "Vote for $label"
-        val content = "Someone just invite you to vote for $label."
+        val content = """<p>Someone just invite you to vote for $label.</p>
+            |<p>Vote Code: <b>--code--</b></p>
+        """.trimMargin()
         val btnLabel = "Vote"
         val btnLink = "$address/proposal/vote/$id"
 
-        send("Vote for $label !", emailContent(title, content, btnLabel, btnLink), emails)
-
+        attendees.forEach { send("Vote for $label !", emailContent(title, content.replace("--code--", it.voteToken), btnLabel, btnLink), mutableListOf(it.mail)) }
     }
 
     fun sendVoteResultLink(adminEmail: String, label: String, id: String, token: String) {

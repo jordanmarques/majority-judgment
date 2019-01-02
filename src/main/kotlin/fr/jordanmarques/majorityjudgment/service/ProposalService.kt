@@ -16,7 +16,7 @@ class ProposalService(
 
         proposal.participants.add(Participant(proposal.creator))
 
-        emailService.sendVoteInvitations(proposal.participants.map { it.mail }, proposal.label, proposal.id)
+        emailService.sendVoteInvitations(proposal.participants, proposal.label, proposal.id)
         emailService.sendVoteResultLink(proposal.creator, proposal.label, proposal.id, proposal.adminToken)
 
         proposalDao.upsert(proposal)
@@ -55,6 +55,8 @@ class ProposalService(
                             .find { participant -> participant.mail.toLowerCase() == userVoteDto.mail.toLowerCase() }
                             ?.let { participant ->
 
+                                `check if vote token is correct`(userVoteDto, participant)
+
                                 `check if user has already voted`(participant)
                                 `A voté !`(proposal, participant)
 
@@ -66,6 +68,12 @@ class ProposalService(
 
 
                 } ?: run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
+    }
+
+    fun `check if vote token is correct`(userVoteDto: UserVoteDto, participant: Participant) {
+        if (userVoteDto.token != participant.voteToken) {
+            throw RuntimeException("Vote token not correct !")
+        }
     }
 
     private fun `A voté !`(proposal: Proposal, participant: Participant) {
