@@ -25,7 +25,7 @@ class NewProposalPage extends Component {
             <CenteredPage>
                 <Jumbotron>
                     <Input name={"Vote Name"} value={this.state.label} onChange={value  => this.setState({label: value})}/>
-                    <Input name={"Email Address"} onChange={value  => this.setState({creator: value})}/>
+                    <Input name={"Email Address"} placeholder="Your address email. We'll provide you an 'admin link' later, so this email should be valid." onChange={value  => this.setState({creator: value})}/>
                     <TagInput name={"Attendees"} values={this.state.participants} onTagsChange={tags => this.setState({participants: tags})}/>
                     <TagInput name={"Choices"} values={this.state.choices} onTagsChange={tags => this.setState({choices: tags})}/>
                     <div className="text-center">

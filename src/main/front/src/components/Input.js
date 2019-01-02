@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Input = ({onChange, value, name}) => {
+const Input = ({onChange, value, name, placeholder}) => {
     return (
         <div className="form-group spaced">
             <label htmlFor="voteName">
@@ -9,7 +9,7 @@ const Input = ({onChange, value, name}) => {
             <input type="text"
                    className="form-control"
                    id="voteName"
-                   placeholder="Vote Name"
+                   placeholder={placeholder}
                    value={value}
                    onChange={e => onChange(e.target.value)}/>
         </div>
