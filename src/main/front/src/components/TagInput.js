@@ -48,7 +48,9 @@ class TagInput extends Component {
     };
 
     sanitize = (unformatedTags) => {
-       return unformatedTags.split(",").filter(tag => tag.trim() !== "")
+       return unformatedTags.split(",")
+           .map(tag => tag.trim())
+           .filter(tag => tag !== "")
     }
 }
 
