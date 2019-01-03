@@ -23,14 +23,12 @@ class EmailService {
     fun sendVoteInvitations(attendees: MutableList<Participant>, label: String, id: String) {
 
         val title = "Vote for $label"
-        val content = """<p>Someone just invite you to vote for $label.</p>
-            |<p>Vote Code: <b>--code--</b></p>
-        """.trimMargin()
+        val content = "<p>Someone just invite you to vote for $label.</p>"
         val btnLabel = "Vote"
         val btnLink = "$address/proposal/vote/$id"
 
         CompletableFuture.supplyAsync {
-            attendees.forEach { send("Vote for $label !", emailBody(title, content.replace("--code--", it.voteToken), btnLabel, btnLink), mutableListOf(it.mail)) }
+            attendees.forEach { send("Vote for $label !", emailBody(title, content, btnLabel, "$btnLink/${it.voteToken}"), mutableListOf(it.mail)) }
         }
 
     }

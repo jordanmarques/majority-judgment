@@ -12,11 +12,10 @@ class ProposalVotePage extends Component {
 
         this.state = {
             voteName: "",
-            voteToken: "",
+            voteToken: props.match.params.token,
             voteId: props.match.params.id,
             choices: [],
             appreciations: [],
-            mail: "",
             votes: {},
             isSendingVote: false
 
@@ -53,14 +52,6 @@ class ProposalVotePage extends Component {
                         }
                     </div>
                     <br/>
-                    <input type="email"
-                           className="form-control"
-                           placeholder="Enter your email (the one on which you received this link)"
-                           onChange={e => this.setState({mail: e.target.value})}/>
-                    <input type="text"
-                           className="form-control"
-                           placeholder="Enter your vote code"
-                           onChange={e => this.setState({voteToken: e.target.value})}/>
 
                     <div className="text-center">
                         {
@@ -87,21 +78,6 @@ class ProposalVotePage extends Component {
 
     submitVote = () => {
 
-        if (!this.state.mail) {
-            alert("You forgot the email !");
-            return;
-        }
-
-        if (!this.state.voteToken) {
-            alert("You forgot the token !");
-            return;
-        }
-
-        if (!this.isEmailValid(this.state.mail)) {
-            alert("The email you entered is not correct");
-            return;
-        }
-
         this.setState({isSendingVote: true});
 
         const votesCall = {};
@@ -110,9 +86,7 @@ class ProposalVotePage extends Component {
             return {choice: formatedChoice, appreciation: this.state.votes[choice]};
         });
 
-        votesCall.mail = this.state.mail;
         votesCall.token = this.state.voteToken;
-
 
         axios.post("/api/proposal/" + this.state.voteId + "/vote", votesCall)
             .then(response => this.props.history.push("/confirmation/vote/"))
@@ -122,11 +96,6 @@ class ProposalVotePage extends Component {
             })
 
     };
-
-    isEmailValid = (email) => {
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
-    }
 
     cleanTitle = (title) => {
         return this.capitalizeFirstLetter(title.replace("_", " "));

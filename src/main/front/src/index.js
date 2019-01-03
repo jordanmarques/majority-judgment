@@ -22,7 +22,7 @@ function App() {
                 <NavBar/>
                 <Route path="/" exact component={IndexPage}/>
                 <Route path="/new/:name?/:attendees?/:choices?" component={NewProposalPage}/>
-                <Route path="/proposal/vote/:id" component={VotePage}/>
+                <Route path="/proposal/vote/:id/:token" component={VotePage}/>
                 <Route path="/proposal/result/:id/:token" component={ProposalResultPage}/>
                 <Route path="/confirmation/creation/:name" component={VoteCreatedConfirmationPage}/>
                 <Route path="/confirmation/vote/" component={VoteSubmitedConfirmationPage}/>

@@ -52,10 +52,8 @@ class ProposalService(
                     `check if vote is closed`(proposal)
 
                     proposal.participants
-                            .find { participant -> participant.mail.toLowerCase() == userVoteDto.mail.toLowerCase() }
+                            .find { participant -> participant.voteToken == userVoteDto.token }
                             ?.let { participant ->
-
-                                `check if vote token is correct`(userVoteDto, participant)
 
                                 `check if user has already voted`(participant)
                                 `A voté !`(proposal, participant)
@@ -68,12 +66,6 @@ class ProposalService(
 
 
                 } ?: run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
-    }
-
-    fun `check if vote token is correct`(userVoteDto: UserVoteDto, participant: Participant) {
-        if (userVoteDto.token != participant.voteToken) {
-            throw RuntimeException("Vote token not correct !")
-        }
     }
 
     private fun `A voté !`(proposal: Proposal, participant: Participant) {
