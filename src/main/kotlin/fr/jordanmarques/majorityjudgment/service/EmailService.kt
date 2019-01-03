@@ -6,6 +6,7 @@ import org.apache.commons.mail.HtmlEmail
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.nio.charset.Charset
+import java.util.concurrent.CompletableFuture
 
 @Service
 class EmailService {
@@ -28,7 +29,10 @@ class EmailService {
         val btnLabel = "Vote"
         val btnLink = "$address/proposal/vote/$id"
 
-        attendees.forEach { send("Vote for $label !", emailContent(title, content.replace("--code--", it.voteToken), btnLabel, btnLink), mutableListOf(it.mail)) }
+        CompletableFuture.supplyAsync {
+            attendees.forEach { send("Vote for $label !", emailBody(title, content.replace("--code--", it.voteToken), btnLabel, btnLink), mutableListOf(it.mail)) }
+        }
+
     }
 
     fun sendVoteResultLink(adminEmail: String, label: String, id: String, token: String) {
@@ -38,7 +42,7 @@ class EmailService {
         val btnLabel = "Vote Results"
         val btnLink = "$address/proposal/result/$id/$token"
 
-        send("Result Link for $label", emailContent(title, content, btnLabel, btnLink), mutableListOf(adminEmail))
+        send("Result Link for $label", emailBody(title, content, btnLabel, btnLink), mutableListOf(adminEmail))
 
     }
 
@@ -49,7 +53,7 @@ class EmailService {
         val btnLabel = "Vote"
         val btnLink = "$address/proposal/vote/$id"
 
-        send("Don't forget to Vote for $label !", emailContent(title, content, btnLabel, btnLink), emails)
+        send("Don't forget to Vote for $label !", emailBody(title, content, btnLabel, btnLink), emails)
     }
 
     private fun send(subject: String, body: String, receivers: List<String>) {
@@ -71,7 +75,7 @@ class EmailService {
         return javaClass.classLoader.getResource("email_template.html").readText(Charset.defaultCharset())
     }
 
-    private fun emailContent(title: String, content: String, btnLabel: String, btnLink: String): String {
+    private fun emailBody(title: String, content: String, btnLabel: String, btnLink: String): String {
         return template()
                 .replace("|title|", title)
                 .replace("|content|", content)
