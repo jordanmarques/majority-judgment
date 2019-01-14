@@ -32,7 +32,6 @@ class CountingManager(
 
                     val missingVoters = proposal.participants
                             .filter { !it.hasVoted }
-                            .map { it.mail }
 
                     emailService.sendReminder(missingVoters, proposal.label, proposalId)
                 }

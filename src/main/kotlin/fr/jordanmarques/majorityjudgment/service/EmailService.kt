@@ -44,14 +44,16 @@ class EmailService {
 
     }
 
-    fun sendReminder(emails: List<String>, label: String, id: String) {
+    fun sendReminder(attendees: List<Participant>, label: String, id: String) {
 
         val title = "Don't forget to vote for $label"
         val content = "This is your last chance to vote for $label !"
         val btnLabel = "Vote"
         val btnLink = "$address/proposal/vote/$id"
 
-        send("Don't forget to Vote for $label !", emailBody(title, content, btnLabel, btnLink), emails)
+        CompletableFuture.supplyAsync {
+            attendees.forEach { send("Don't forget to Vote for $label !", emailBody(title, content, btnLabel, "$btnLink/${it.voteToken}"), mutableListOf(it.mail)) }
+        }
     }
 
     private fun send(subject: String, body: String, receivers: List<String>) {
