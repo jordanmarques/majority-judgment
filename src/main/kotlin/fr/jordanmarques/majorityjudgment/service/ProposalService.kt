@@ -14,7 +14,9 @@ class ProposalService(
 ) {
     fun save(proposal: Proposal): String {
 
-        proposal.participants.add(Participant(proposal.creator))
+        proposal.participants
+                .find { it.mail == proposal.creator }
+                ?:let { proposal.participants.add(Participant(proposal.creator)) }
 
         emailService.sendVoteInvitations(proposal.participants, proposal.label, proposal.id)
         emailService.sendVoteResultLink(proposal.creator, proposal.label, proposal.id, proposal.adminToken)
