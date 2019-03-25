@@ -1,5 +1,6 @@
 package fr.jordanmarques.majorityjudgment.controller
 
+import fr.jordanmarques.majorityjudgment.dto.AttendeesDto
 import fr.jordanmarques.majorityjudgment.dto.UserVoteDto
 import fr.jordanmarques.majorityjudgment.model.Choice
 import fr.jordanmarques.majorityjudgment.model.Participant
@@ -40,7 +41,7 @@ class ProposalController(
     }
 
     @RequestMapping(value= ["/proposal/{proposalId}/attendees"], method = [GET])
-    fun attendees(@PathVariable("proposalId") proposalId: String): List<Participant> {
-        return proposalService.attendees(proposalId)
+    fun attendees(@PathVariable("proposalId") proposalId: String, @RequestParam("token") adminToken: String): List<AttendeesDto> {
+        return proposalService.attendees(proposalId, adminToken)
     }
 }

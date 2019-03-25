@@ -15,7 +15,7 @@ class CountingManager(
     fun counting(proposalId: String, adminToken: String): CountingResultDto {
         proposalDao.byId(proposalId)
                 ?.let { proposal ->
-                    if (proposal.adminToken != adminToken) throw RuntimeException("Token is not correct")
+                    if (proposal.adminToken != adminToken) throw RuntimeException("Invalid Token")
 
                     val count = countingService.count(proposal.votes)
 

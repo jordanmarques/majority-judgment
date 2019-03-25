@@ -35,7 +35,7 @@ class ProposalResultPage extends Component {
             .then(response => this.setState({voteName: response.data}))
             .catch(error => alert(error.response.data.message));
 
-        axios.get(`/api/proposal/${this.state.voteId}/attendees`)
+        axios.get(`/api/proposal/${this.state.voteId}/attendees?token=${this.state.token}`)
             .then(response => this.setState({attendees: response.data}))
             .catch(error => alert(error.response.data.message));
 

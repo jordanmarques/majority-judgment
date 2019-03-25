@@ -1,6 +1,7 @@
 package fr.jordanmarques.majorityjudgment.service
 
 import fr.jordanmarques.majorityjudgment.dao.ProposalDao
+import fr.jordanmarques.majorityjudgment.dto.AttendeesDto
 import fr.jordanmarques.majorityjudgment.dto.UserVoteDto
 import fr.jordanmarques.majorityjudgment.model.Choice
 import fr.jordanmarques.majorityjudgment.model.Participant
@@ -38,9 +39,14 @@ class ProposalService(
                 ?: run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
     }
 
-    fun attendees(proposalId: String): List<Participant> {
+    fun attendees(proposalId: String, adminToken: String): List<AttendeesDto> {
         proposalDao.byId(proposalId)
-                ?.let { proposal -> return proposal.participants }
+                ?.let { proposal ->
+
+                    if(proposal.adminToken != adminToken) throw RuntimeException("Invalid Token")
+
+                    return proposal.participants.map { AttendeesDto(mail = it.mail, hasVoted = it.hasVoted) }
+                }
                 ?: run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
     }
 
