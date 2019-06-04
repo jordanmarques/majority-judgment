@@ -3,7 +3,6 @@ package fr.jordanmarques.majorityjudgment.controller
 import fr.jordanmarques.majorityjudgment.dto.AttendeesDto
 import fr.jordanmarques.majorityjudgment.dto.UserVoteDto
 import fr.jordanmarques.majorityjudgment.model.Choice
-import fr.jordanmarques.majorityjudgment.model.Participant
 import fr.jordanmarques.majorityjudgment.model.Proposal
 import fr.jordanmarques.majorityjudgment.service.ProposalService
 import org.springframework.web.bind.annotation.*

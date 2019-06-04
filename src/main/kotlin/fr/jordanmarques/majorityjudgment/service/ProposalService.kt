@@ -15,9 +15,7 @@ class ProposalService(
 ) {
     fun save(proposal: Proposal): String {
 
-        proposal.participants
-                .find { it.mail == proposal.creator }
-                ?:let { proposal.participants.add(Participant(proposal.creator)) }
+        proposal.participants = sanitizeParticipants(proposal.participants, proposal.creator)
 
         emailService.sendVoteInvitations(proposal.participants, proposal.label, proposal.id)
         emailService.sendVoteResultLink(proposal.creator, proposal.label, proposal.id, proposal.adminToken)
@@ -75,6 +73,26 @@ class ProposalService(
 
                 } ?: run { throw RuntimeException("Unable to find a proposal with id $proposalId") }
     }
+
+    private fun sanitizeParticipants(participants: MutableList<Participant>, creator: String): MutableList<Participant> {
+        if( !isCreatorInParticipantsList(participants, creator) ) {
+            participants.add(Participant(mail = creator))
+        }
+
+        val participantsWithoutDuplicate = removeParticipantsDuplicate(participants)
+
+        return participantsWithoutDuplicate
+
+    }
+
+    private fun removeParticipantsDuplicate(participants: MutableList<Participant>): MutableList<Participant> {
+        return participants
+                .distinctBy { it.mail }
+                .toMutableList()
+    }
+
+    private fun isCreatorInParticipantsList(participants: MutableList<Participant>, creator: String): Boolean =
+            participants.find { it.mail == creator } != null
 
     private fun `A voté !`(proposal: Proposal, participant: Participant) {
         val participantIdx = proposal.participants.indexOf(participant)
